@@ -17,7 +17,7 @@ $('#upload').click(function(){
         processData: false,
         success: function(data){
             // On request succss, we show image from server
-            $('#imagePreview').attr('src', data);
+            $('#imagePreview').attr('src', data.output_image);
         }
     });
 });
