@@ -3,7 +3,7 @@ FROM tensorflow/tensorflow:2.15.0
 
 # Install production dependencies.
 ADD requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --ignore-installed -r requirements.txt
 
 # Copy local code to the container image.
 WORKDIR /app
