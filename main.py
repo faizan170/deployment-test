@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from infer import process_image
 
 app = Flask(__name__)
@@ -8,6 +8,10 @@ app = Flask(__name__)
 GET => 
 POST => (Image)
 '''
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 
 @app.route('/process', methods=['POST'])
