@@ -23,7 +23,7 @@ def process():
         return {
             "status": "Image processed successfully",
             "coordinates": coordinates,
-            "output_image": request.host_url + final_path
+            "output_image": request.host_url.replace("http", "https") + final_path
         }
     except Exception as e:
         return {"error": str(e)}, 500

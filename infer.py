@@ -1,6 +1,25 @@
 import numpy as np
 import tensorflow as tf
 import cv2, os
+from google.cloud import storage    
+
+bucket_name = 'deployment-test-bucket-1234'
+cloud_model_path = "ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8.tar.gz"
+local_path = "ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8"
+storage_client = storage.Client()
+bucket = storage_client.bucket(bucket_name)
+
+# download this model locally
+if not os.path.exists(local_path):
+    blob = bucket.blob(cloud_model_path)
+    blob.download_to_filename(cloud_model_path)
+
+    # extract model
+    import tarfile
+
+    with tarfile.open(cloud_model_path, "r:gz") as tar:
+        tar.extractall(path=".")
+
 # from src.utils import download_model
 STATIC_DIR = "static"
 os.makedirs(STATIC_DIR, exist_ok=True)
