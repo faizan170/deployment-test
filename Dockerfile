@@ -1,4 +1,5 @@
-FROM tensorflow/tensorflow
+FROM tensorflow/tensorflow:2.15.0
+
 
 # Install production dependencies.
 ADD requirements.txt .
