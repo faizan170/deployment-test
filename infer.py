@@ -30,6 +30,7 @@ model_name = "ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8/saved_model"
 model= tf.saved_model.load(model_name)
 
 def process_image(image_path):
+    print("Processing Image:", image_path)
     # read image and preprocess
     img = cv2.imread(image_path)
     h, w, _ = img.shape

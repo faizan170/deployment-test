@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from infer import process_image
+import os
 
 app = Flask(__name__)
 
@@ -18,14 +19,20 @@ def home():
 def process():
     try:
         image = request.files['image']
-        image.save("input.jpg")
-        coordinates, final_path = process_image("input.jpg")
+        filename = "temp/" + image.filename
+        image.save(filename)
+        coordinates, final_path = process_image(filename)
+        
+        url = request.host_url
+        if os.environ.get("FLASK_ENV") == "production":
+            url = url.replace("http", "https")
         return {
             "status": "Image processed successfully",
             "coordinates": coordinates,
-            "output_image": request.host_url.replace("http", "https") + final_path
+            "output_image": url + final_path
         }
     except Exception as e:
+        print(e)
         return {"error": str(e)}, 500
 
 if __name__ == '__main__':

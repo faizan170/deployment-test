@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-10 form-group">
             <label for="fileInput">File input</label>
-            <input type="file" class="form-control" onchange="loadImg()" id="fileInput" aria-describedby="fileHelp">
+            <input type="file" class="form-control" onchange="loadImg(event)" id="fileInput" aria-describedby="fileHelp">
         </div>
         <div class="col-md-2 btn-submit-container">
         <button type="button" class="btn btn-primary" id="upload">Process Image</button>
@@ -25,6 +25,9 @@
     <div>
         <img src="" id="imagePreview" class="image-preview">
     </div>
+
+    <!-- Error message (hidden by default) -->
+    <div id="errorMsg" class="alert alert-danger" style="display:none; margin-top:10px;"></div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
