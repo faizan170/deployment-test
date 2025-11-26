@@ -26,6 +26,27 @@
         <img src="" id="imagePreview" class="image-preview">
     </div>
 
+    <!-- Results: table (hidden by default) -->
+    <div id="resultsContainer" style="display:none; margin-top:15px;">
+        <table id="resultsTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Score</th>
+                    <th>Points (xmin, ymin, xmax, ymax)</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- rows will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- No-detections message -->
+    <div id="noResults" class="alert alert-info" style="display:none; margin-top:10px;">
+        No objects detected.
+    </div>
+
     <!-- Error message (hidden by default) -->
     <div id="errorMsg" class="alert alert-danger" style="display:none; margin-top:10px;"></div>
 </div>

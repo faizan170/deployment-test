@@ -1,6 +1,13 @@
+function clearResults(){
+    $('#resultsBody').empty();
+    $('#resultsContainer').hide();
+    $('#noResults').hide();
+}
+
 function loadImg(event){
-    // Hide any previous error when selecting a new file
+    // Hide any previous error and results when selecting a new file
     $('#errorMsg').hide();
+    clearResults();
     // Show preview image for selected file before upload (if any)
     if (event && event.target && event.target.files && event.target.files[0]) {
         $('#imagePreview').attr('src', URL.createObjectURL(event.target.files[0]));
@@ -11,8 +18,9 @@ function loadImg(event){
 
 // Upload image using ajax
 $('#upload').click(function(){
-    // Hide previous error and guard for selected file
+    // Hide previous error and results and guard for selected file
     $('#errorMsg').hide();
+    clearResults();
 
     if (!$('#fileInput')[0].files || $('#fileInput')[0].files.length === 0) {
         $('#errorMsg').text('Please select an image before processing.').show();
@@ -38,6 +46,34 @@ $('#upload').click(function(){
             // On request success, show image from server and hide errors
             $('#imagePreview').attr('src', data.output_image);
             $('#errorMsg').hide();
+
+            // populate results table if coordinates exist
+            try {
+                var coords = data.coordinates || [];
+                if (coords.length === 0) {
+                    $('#noResults').show();
+                    return;
+                }
+
+                var $body = $('#resultsBody');
+                coords.forEach(function(item){
+                    var cls = item.class_name || item.class || 'Unknown';
+                    var score = (typeof item.score === 'number') ? (Math.round(item.score * 10000)/100) + '%' : (item.score || '');
+                    var box = item.box || {};
+                    var points = [box.xmin, box.ymin, box.xmax, box.ymax].map(function(v){ return (v===undefined? '': v); }).join(', ');
+
+                    var row = '<tr>' +
+                              '<td>' + cls + '</td>' +
+                              '<td>' + score + '</td>' +
+                              '<td>' + points + '</td>' +
+                              '</tr>';
+                    $body.append(row);
+                });
+                $('#resultsContainer').show();
+            } catch(e){
+                // if anything goes wrong while building table, show a generic message
+                $('#errorMsg').text('Processed but failed to render results.').show();
+            }
         },
         error: function(xhr){
             // show error message (try to use server-provided message)
