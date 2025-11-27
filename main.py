@@ -5,6 +5,7 @@ import os
 app = Flask(__name__)
 
 
+os.makedirs("temp", exist_ok=True)
 '''
 GET => 
 POST => (Image)
